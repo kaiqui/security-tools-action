@@ -8,7 +8,7 @@ def install_dependencies():
 
 def run_tool(tool):
     if tool == "dependency-check":
-        subprocess.run(["/action/dependency-check/main.py"], check=True)
+        subprocess.run(["/dependency-check/main.py"], check=True)
     elif tool == "bandit":
         subprocess.run(["python", "-m", "bandit", "-r", ".", "-f", "json", "-o", "reports/bandit-report.json"], check=True)
     elif tool == "checkov":
