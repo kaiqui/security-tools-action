@@ -4,13 +4,11 @@ import os
 def run_dependency_check():
     DC_VERSION = "6.5.0"
     DATA_DIRECTORY = "/usr/share/dependency-check/data"
-    OUTPUT_DIRECTORY = "/report"
+    OUTPUT_DIRECTORY = "./report"
     OUTPUT_FILE = f"{OUTPUT_DIRECTORY}/dependency-check-report.json"
 
-    # Criar diretórios de saída
     os.makedirs(OUTPUT_DIRECTORY, exist_ok=True)
 
-    # Construir o comando Docker
     command = [
         "docker", "run", "--rm",
         "-v", f"{os.getcwd()}:/src:z",
@@ -22,7 +20,6 @@ def run_dependency_check():
         "--out", OUTPUT_FILE
     ]
 
-    # Executar o Dependency-Check
     subprocess.run(command, check=True)
 
 if __name__ == "__main__":
