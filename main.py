@@ -1,6 +1,7 @@
 import subprocess
 import sys
 import os
+from dependency_check.main import run_dependency_check
 
 def install_dependencies():
     subprocess.run(["python", "-m", "pip", "install", "--upgrade", "pip"], check=True)
@@ -8,7 +9,7 @@ def install_dependencies():
 
 def run_tool(tool):
     if tool == "dependency-check":
-        subprocess.run(["/dependency-check/main.py"], check=True)
+        run_dependency_check()
     elif tool == "bandit":
         subprocess.run(["python", "-m", "bandit", "-r", ".", "-f", "json", "-o", "reports/bandit-report.json"], check=True)
     elif tool == "checkov":
