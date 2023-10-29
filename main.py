@@ -11,16 +11,26 @@ def install_dependencies():
     logger.success("Dependências instaladas com sucesso.")
 
 def run_tool(tool):
+    output_file = f"{tool}-report.json"
+    
     logger.info(f"Executando ferramenta: {tool}")
     if tool == "dependency-check":
         run_dependency_check()
     elif tool == "bandit":
-        subprocess.run(["python","-m","bandit", "-r", ".", "-f", "json", "-o", "bandit-report.json"], check=True)
+        subprocess.run(["python","-m","bandit", "-r", ".", "-f", "json", "-o", output_file], check=True)
     elif tool == "checkov":
-        subprocess.run(["checkov", "-d", ".", "-o", "json", "--output-file", "checkov-report.json"], check=True)
+        subprocess.run(["checkov", "-d", ".", "-o", "json", "--output-file", output_file], check=True)
     else:
         logger.error(f"Ferramenta {tool} não reconhecida")
         sys.exit(1)
+    
+    if os.path.exists(output_file):
+        with open(output_file, "r") as file:
+            content = file.read()
+            logger.info(f"Conteúdo de {output_file}:\n{content}")
+    else:
+        logger.warning(f"Arquivo de saída {output_file} não encontrado")
+    
     logger.success(f"Ferramenta {tool} executada com sucesso.")
 
 def main():
@@ -28,7 +38,7 @@ def main():
 
     tools_input = os.getenv("TOOL")
     if tools_input:
-        logger.info(f"Rodando a ferramenta: {tools_input}")
+        logger.info(f"Rodando a(s) ferramenta(s): {tools_input}")
         tools = {
             "all": ["dependency-check", "bandit", "checkov"],
             "web": ["bandit"],
@@ -43,21 +53,8 @@ def main():
 
         logger.success("Todas as ferramentas foram executadas com sucesso.")
     else:
-        logger.exception("informe o tipo de ferramenta: {tools_input}")
+        logger.exception("Favor informar o tipo de ferramenta")
+        sys.exit(1)
 
 if __name__ == "__main__":
-    logger.info(
-        """\n
- _______  _______  _______  _______  ___   _______  _______  _______  _______  _______  ___      _______ 
-|       ||       ||       ||       ||   | |       ||       ||       ||       ||       ||   |    |       |
-|  _____||    ___||       ||    _  ||   | |    _  ||    ___||_     _||   _   ||   _   ||   |    |  _____|
-| |_____ |   |___ |       ||   |_| ||   | |   |_| ||   |___   |   |  |  | |  ||  | |  ||   |    | |_____ 
-|_____  ||    ___||      _||    ___||   | |    ___||    ___|  |   |  |  |_|  ||  |_|  ||   |___ |_____  |
- _____| ||   |___ |     |_ |   |    |   | |   |    |   |___   |   |  |       ||       ||       | _____| |
-|_______||_______||_______||___|    |___| |___|    |_______|  |___|  |_______||_______||_______||_______|
-        
-Author: kaiqui 
-Version: 0.1
-        \n"""
-    )
     main()
