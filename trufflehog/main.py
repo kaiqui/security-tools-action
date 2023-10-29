@@ -9,7 +9,7 @@ def find_leaks():
     GH_LOGIN = os.getenv("LOGIN")
     TOKEN = os.getenv("API_TOKEN")
     org = os.getenv("GITHUB_REPOSITORY_OWNER")
-    logger.info(org)
+    logger.info(GH_LOGIN)
     app = os.getenv("GITHUB_REPOSITORY").split("/")[-1]
     
     conn = f'https://{GH_LOGIN}:{TOKEN}@github.com/{org}/{app}.git'
