@@ -2,7 +2,7 @@ import subprocess
 import os
 
 def run_dependency_check():
-    DC_VERSION = "6.5.0"
+    DC_VERSION = "larest"
     DATA_DIRECTORY = "/usr/share/dependency-check/data"
     OUTPUT_DIRECTORY = "./report"
     OUTPUT_FILE = f"{OUTPUT_DIRECTORY}/dependency-check-report.json"

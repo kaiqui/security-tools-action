@@ -25,9 +25,9 @@ def run_tool(tool):
 
 def main():
     logger.info("Iniciando o script de ferramentas de segurança...")
-    install_dependencies()
 
-    tools_input = os.getenv("INPUT_TOOLS", "all")
+    tools_input = os.getenv("INPUT_TOOLS")
+    logger.info(f"Rodando a ferramenta: {tools_input}")
     tools = {
         "all": ["dependency-check", "bandit", "checkov"],
         "web": ["bandit"],
