@@ -30,5 +30,7 @@ runs:
       shell: bash
 
     - name: Run Security Tool
-      run: python ${{ github.action_path }}/${{ inputs.tool }}/main.py
+      run: python ${{ github.action_path }}/${{ inputs.tools }}/main.py
       shell: bash
+      env:
+        TOOL: ${{ inputs.tools }}
