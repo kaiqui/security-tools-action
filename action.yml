@@ -4,6 +4,12 @@ inputs:
   tool:
     description: 'Security tool to run'
     required: true
+  github_token:
+    description: 'GitHub Personal Access Token'
+    required: true
+  github_username:
+    description: 'GitHub Username'
+    required: true
 runs:
   using: 'composite'
   steps:
@@ -30,7 +36,7 @@ runs:
       shell: bash
 
     - name: Run Security Tool
-      run: python ${{ github.action_path }}/${{ inputs.tool }}/main.py
+      run: python main.py --tool ${{ inputs.tool }} --token ${{ inputs.github_token }} --username ${{ inputs.github_username }}
       shell: bash
       env:
         TOOL: ${{ inputs.tools }}

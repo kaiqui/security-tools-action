@@ -29,6 +29,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run Security Tool
-        uses: seu-usuario/security-tool-action@main
+        uses: kaiqui/security-tool-action@main
         with:
-          tool: dependency-check
+          tool: web
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_username: ${{ secrets.GITHUB_USERNAME }}
+

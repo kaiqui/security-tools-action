@@ -6,8 +6,8 @@ from loguru import logger
 
 def find_leaks():
     PATH = str(pathlib.Path().parent.resolve())
-    GH_LOGIN = os.getenv("LOGIN")
-    TOKEN = os.getenv("API_TOKEN")
+    GH_LOGIN = os.getenv("GITHUB_USERNAME ")
+    TOKEN = os.getenv("GITHUB_TOKEN ")
     org = os.getenv("GITHUB_REPOSITORY_OWNER")
     logger.info(GH_LOGIN)
     app = os.getenv("GITHUB_REPOSITORY").split("/")[-1]
