@@ -23,7 +23,7 @@ def main():
 
     tools_input = os.getenv("INPUT_TOOLS", "all")
     tools = {
-        "all": ["dependency-check", "bandit", "checkov"],
+        "all": ["bandit", "checkov"],
         "web": [ "bandit"],
         "iac": ["checkov"],
         "mobile": [],
