@@ -5,7 +5,8 @@ Esta ação do GitHub permite que você execute várias ferramentas de seguranç
 ## Ferramentas Disponíveis
 
 - OWASP Dependency-Check
-- (outras ferramentas)
+- Bandit
+- Trufflehog
 
 ## Como Usar
 

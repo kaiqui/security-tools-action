@@ -13,12 +13,12 @@ def find_leaks():
     
     conn = f'https://{GH_LOGIN}:{TOKEN}@github.com/{org}/{app}'
     cmd = (f'docker run --rm -it -v "$PWD:/pwd" trufflesecurity/trufflehog:latest git {conn} --json',
-           '> trufflehog.json')
+           '> trufflehog-report.json')
     cmd = " ".join(str(item) for item in cmd)
     logger.info(cmd)
     result = subprocess.run(cmd, shell=True)
     if result.returncode >= 0:
-        with open(f'{PATH}/trufflehog.json', 'r') as f:
+        with open(f'{PATH}/trufflehog-report.json', 'r') as f:
             out_json = json.loads(
                 "[" + f.read().replace("}\n{", "},\n{") + "]")
         for j in range(len(out_json)):
@@ -42,9 +42,3 @@ def find_leaks():
         logger.error(f'RETURN CODE: {result.returncode}')
         return False
     return True
-
-if __name__ == "__main__":
-    logger.info("Iniciando a busca por vazamentos...")
-    if not find_leaks():
-        logger.exception('Erro ao executar os leaks')
-    logger.success("Busca por vazamentos concluída com sucesso.")
