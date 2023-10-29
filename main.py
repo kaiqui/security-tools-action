@@ -15,7 +15,7 @@ def run_tool(tool):
     if tool == "dependency-check":
         run_dependency_check()
     elif tool == "bandit":
-        subprocess.run(["bandit", "-r", ".", "-f", "json", "-o", "bandit-report.json"], check=True)
+        subprocess.run(["python","-m","bandit", "-r", ".", "-f", "json", "-o", "bandit-report.json"], check=True)
     elif tool == "checkov":
         subprocess.run(["checkov", "-d", ".", "-o", "json", "--output-file", "checkov-report.json"], check=True)
     else:
@@ -43,7 +43,7 @@ def main():
 
         logger.success("Todas as ferramentas foram executadas com sucesso.")
     else:
-        logger.error("informe o tipo de ferramenta: {tools_input}")
+        logger.exception("informe o tipo de ferramenta: {tools_input}")
 
 if __name__ == "__main__":
     logger.info(
