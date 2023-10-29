@@ -3,6 +3,7 @@ from loguru import logger
 import sys
 import os
 from dependency_check.main import run_dependency_check
+from trufflehog.main import find_leaks
 
 def install_dependencies():
     logger.info("Instalando dependências...")
@@ -20,6 +21,8 @@ def run_tool(tool):
         subprocess.run(["python","-m","bandit", "-r", ".", "-f", "json", "-o", output_file], check=False)
     elif tool == "checkov":
         subprocess.run(["checkov", "-d", ".", "-o", "json", "--output-file", output_file], check=True)
+    elif tool == "trufflehog":
+        find_leaks() 
     else:
         logger.error(f"Ferramenta {tool} não reconhecida")
         sys.exit(1)
@@ -41,7 +44,7 @@ def main():
         logger.info(f"Rodando a(s) ferramenta(s): {tools_input}")
         tools = {
             "all": ["dependency-check", "bandit", "checkov"],
-            "web": ["bandit"],
+            "web": ["bandit", "trufflehog"],
             "iac": ["checkov"],
             "mobile": [],
             "android": [],
