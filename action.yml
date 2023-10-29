@@ -33,4 +33,4 @@ runs:
       run: python ${{ github.action_path }}/${{ inputs.tool }}/main.py
       shell: bash
       env:
-        TOOL: ${{ inputs.tool }}
+        TOOL: ${{ inputs.tools }}

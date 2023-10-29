@@ -43,7 +43,7 @@ def main():
 
         logger.success("Todas as ferramentas foram executadas com sucesso.")
     else:
-        logger.error("informe o tipo de ferramenta")
+        logger.error("informe o tipo de ferramenta: {tools_input}")
 
 if __name__ == "__main__":
     logger.info(
