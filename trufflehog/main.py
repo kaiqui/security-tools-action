@@ -11,7 +11,7 @@ def find_leaks():
     org = os.getenv("GITHUB_REPOSITORY_OWNER")
     app = os.getenv("GITHUB_REPOSITORY").split("/")[-1]
     
-    conn = f'https://{GH_LOGIN}:{TOKEN}@github.com/{org}/{app}'
+    conn = f'https://{GH_LOGIN}:{TOKEN}@github.com/{org}/{app}.git'
     cmd = (f'docker run --rm -it -v "$PWD:/pwd" trufflesecurity/trufflehog:latest git {conn} --json',
            '> trufflehog-report.json')
     cmd = " ".join(str(item) for item in cmd)
