@@ -26,21 +26,24 @@ def run_tool(tool):
 def main():
     logger.info("Iniciando o script de ferramentas de segurança...")
 
-    tools_input = os.getenv("INPUT_TOOLS")
-    logger.info(f"Rodando a ferramenta: {tools_input}")
-    tools = {
-        "all": ["dependency-check", "bandit", "checkov"],
-        "web": ["bandit"],
-        "iac": ["checkov"],
-        "mobile": [],
-        "android": [],
-        "ios": [],
-    }.get(tools_input, tools_input.split(","))
+    tools_input = os.getenv("TOOL")
+    if tools_input:
+        logger.info(f"Rodando a ferramenta: {tools_input}")
+        tools = {
+            "all": ["dependency-check", "bandit", "checkov"],
+            "web": ["bandit"],
+            "iac": ["checkov"],
+            "mobile": [],
+            "android": [],
+            "ios": [],
+        }.get(tools_input, tools_input.split(","))
 
-    for tool in tools:
-        run_tool(tool.strip())
+        for tool in tools:
+            run_tool(tool.strip())
 
-    logger.success("Todas as ferramentas foram executadas com sucesso.")
+        logger.success("Todas as ferramentas foram executadas com sucesso.")
+    else:
+        logger.error("informe o tipo de ferramenta")
 
 if __name__ == "__main__":
     logger.info(
