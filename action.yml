@@ -20,12 +20,12 @@ runs:
       shell: bash
 
     - name: Install Bandit
-      if: inputs.tool == 'bandit'
+      if: inputs.tools == 'web'
       run: pip install bandit
       shell: bash
 
     - name: Install Checkov
-      if: inputs.tool == 'checkov'
+      if: inputs.tool == 'iac'
       run: pip install checkov
       shell: bash
 
