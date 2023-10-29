@@ -17,7 +17,7 @@ def run_tool(tool):
     if tool == "dependency-check":
         run_dependency_check()
     elif tool == "bandit":
-        subprocess.run(["python","-m","bandit", "-r", ".", "-f", "json", "-o", output_file], check=True)
+        subprocess.run(["python","-m","bandit", "-r", ".", "-f", "json", "-o", output_file], check=False)
     elif tool == "checkov":
         subprocess.run(["checkov", "-d", ".", "-o", "json", "--output-file", output_file], check=True)
     else:
