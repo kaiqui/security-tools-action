@@ -36,7 +36,9 @@ runs:
       shell: bash
 
     - name: Run Security Tool
-      run: python main.py --tool ${{ inputs.tool }} --token ${{ inputs.github_token }} --username ${{ inputs.github_username }}
+      run: python ${{ github.action_path }}/${{ inputs.tool }}/main.py
       shell: bash
       env:
         TOOL: ${{ inputs.tools }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        GITHUB_USERNAME: ${{ inputs.github_username }}
