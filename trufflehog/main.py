@@ -6,12 +6,16 @@ from loguru import logger
 
 def find_leaks():
     PATH = str(pathlib.Path().parent.resolve())
-    GH_LOGIN = os.getenv("G_USERNAME ")
-    TOKEN = os.getenv("G_TOKEN ")
-    org = os.getenv("GITHUB_REPOSITORY_OWNER")
-    app = os.getenv("GITHUB_REPOSITORY").split("/")[-1]
+    G_USERNAME = os.environ.get("G_USERNAME")
+    G_TOKEN = os.environ.get("G_TOKEN")
+    org = os.environ.get("GITHUB_REPOSITORY_OWNER")
+    app = os.environ.get("GITHUB_REPOSITORY").split("/")[-1]
+    logger.info(G_USERNAME)
+    logger.info(G_TOKEN)
+    logger.info(org)
+    logger.info(app) 
     
-    conn = f'https://{GH_LOGIN}:{TOKEN}@github.com/{org}/{app}.git'
+    conn = f'https://{G_USERNAME}:{G_TOKEN}@github.com/{org}/{app}.git'
     logger.info(conn)
     cmd = (f'docker run --rm -i -v "$PWD:/pwd" trufflesecurity/trufflehog:latest git {conn} --json',
            '> trufflehog-report.json')
@@ -42,3 +46,5 @@ def find_leaks():
         logger.error(f'RETURN CODE: {result.returncode}')
         return False
     return True
+
+find_leaks()
