@@ -9,14 +9,13 @@ def find_leaks():
     GH_LOGIN = os.getenv("G_USERNAME ")
     TOKEN = os.getenv("G_TOKEN ")
     org = os.getenv("GITHUB_REPOSITORY_OWNER")
-    logger.info(GH_LOGIN)
     app = os.getenv("GITHUB_REPOSITORY").split("/")[-1]
     
     conn = f'https://{GH_LOGIN}:{TOKEN}@github.com/{org}/{app}.git'
+    logger.info(conn)
     cmd = (f'docker run --rm -i -v "$PWD:/pwd" trufflesecurity/trufflehog:latest git {conn} --json',
            '> trufflehog-report.json')
     cmd = " ".join(str(item) for item in cmd)
-    logger.info(cmd)
     result = subprocess.run(cmd, shell=True)
     if result.returncode >= 0:
         with open(f'{PATH}/trufflehog-report.json', 'r') as f:
