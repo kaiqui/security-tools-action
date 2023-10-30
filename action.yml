@@ -39,6 +39,6 @@ runs:
       run: python ${{ github.action_path }}/${{ inputs.tool }}/main.py
       shell: bash
       env:
-        TOOL: ${{ inputs.tools }}
+        TOOL: ${{ inputs.tool }}
         G_TOKEN: ${{ inputs.g_token }}
         G_USERNAME: ${{ inputs.g_username }}
