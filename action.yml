@@ -40,5 +40,5 @@ runs:
       shell: bash
       env:
         TOOL: ${{ inputs.tools }}
-        GITHUB_TOKEN: ${{ inputs.github_token }}
-        GITHUB_USERNAME: ${{ inputs.github_username }}
+        G_TOKEN: ${{ inputs.g_token }}
+        G_USERNAME: ${{ inputs.g_username }}
