@@ -4,10 +4,10 @@ inputs:
   tool:
     description: 'Security tool to run'
     required: true
-  github_token:
+  g_token:
     description: 'GitHub Personal Access Token'
     required: true
-  github_username:
+  g_username:
     description: 'GitHub Username'
     required: true
 runs:
