@@ -13,9 +13,7 @@ def install_dependencies():
     subprocess.run(["pip", "install", "bandit", "checkov"], check=True)
     logger.success("Dependências instaladas com sucesso.")
 
-def run_tool(tool):
-    output_file = f"{tool}-report.json"
-    
+def run_tool(tool):    
     logger.info(f"Executando ferramenta: {tool}")
     if tool == "dependency-check":
         run_dependency_check()

@@ -10,13 +10,8 @@ def find_leaks():
     G_TOKEN = os.environ.get("G_TOKEN")
     org = os.environ.get("GITHUB_REPOSITORY_OWNER")
     app = os.environ.get("GITHUB_REPOSITORY").split("/")[-1]
-    logger.info(G_USERNAME)
-    logger.info(G_TOKEN)
-    logger.info(org)
-    logger.info(app) 
     
     conn = f'https://{G_USERNAME}:{G_TOKEN}@github.com/{org}/{app}.git'
-    logger.info(conn)
     cmd = (f'docker run --rm -i -v "$PWD:/pwd" trufflesecurity/trufflehog:latest git {conn} --json',
            '> trufflehog-report.json')
     cmd = " ".join(str(item) for item in cmd)
@@ -38,7 +33,7 @@ def find_leaks():
                     'reason': reason,
                     'leak': out_json[j]['Raw']
                 }
-                logger.info(f"Leak found: {payload}")
+                logger.error(f"Leak found: {payload}")
             except Exception as e:
                 logger.warning(e)
                 continue

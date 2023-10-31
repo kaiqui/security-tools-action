@@ -14,7 +14,7 @@ def iac_test():
         with open(output_file, "r") as file:
             content = file.read()
             result_iac = json.loads(content)
-            if 'results' in result_iac and 'failed_checks' in result_iac['results']:
+            if result_iac:
                 failed_checks = result_iac['results']['failed_checks']
                 for check in failed_checks:
                     check_id = check.get('check_id', 'Não informado')
