@@ -46,5 +46,3 @@ def find_leaks():
         logger.error(f'RETURN CODE: {result.returncode}')
         return False
     return True
-
-find_leaks()

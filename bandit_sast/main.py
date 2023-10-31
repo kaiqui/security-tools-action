@@ -6,7 +6,7 @@ import json
 
 def sast_python():
     output_file = 'bandit-report.json'
-    subprocess.run(["python","-m","bandit", "-r", ".", "-f", "json", "-o", output_file], check=False)
+    subprocess.run(["python","-m","bandit", "-r", ".", "-f", "json", ">", output_file], check=False)
     if os.path.exists(output_file):
         with open(output_file, "r") as file:
             content = file.read()
