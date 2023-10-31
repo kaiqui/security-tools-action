@@ -29,7 +29,7 @@ def iac_test():
                                  f"File Line Range: {file_line_range}\n"
                                  f"Guideline: {guideline}")
             else:
-                logger.warning(f"Chaves 'results' ou 'failed_checks' não encontradas no arquivo de resultado {output_file}")
+                logger.warning(f"Chaves 'results' ou 'failed_checks' não encontradas no arquivo de resultado {result_iac}")
     else:
         logger.warning(f"Arquivo de saída {output_file} não encontrado")
         
