@@ -4,6 +4,7 @@ import sys
 import os
 from dependency_check.main import run_dependency_check
 from trufflehog.main import find_leaks
+from bandit_sast.main import sast_python
 
 def install_dependencies():
     logger.info("Instalando dependências...")
@@ -18,7 +19,7 @@ def run_tool(tool):
     if tool == "dependency-check":
         run_dependency_check()
     elif tool == "bandit":
-        subprocess.run(["python","-m","bandit", "-r", ".", "-f", "json", "-o", output_file], check=False)
+        sast_python()
     elif tool == "checkov":
         subprocess.run(["checkov", "-d", ".", "-o", "json", "--output-file", output_file], check=True)
     elif tool == "trufflehog":
@@ -26,14 +27,6 @@ def run_tool(tool):
     else:
         logger.error(f"Ferramenta {tool} não reconhecida")
         sys.exit(1)
-    
-    if os.path.exists(output_file):
-        with open(output_file, "r") as file:
-            content = file.read()
-            logger.info(f"Conteúdo de {output_file}:\n{content}")
-    else:
-        logger.warning(f"Arquivo de saída {output_file} não encontrado")
-    
     logger.success(f"Ferramenta {tool} executada com sucesso.")
 
 def main():
