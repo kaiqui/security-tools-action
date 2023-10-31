@@ -14,6 +14,7 @@ def iac_test():
         with open(output_file, "r") as file:
             content = file.read()
             result_iac = json.loads(content)
+            logger.info(result_iac)
             if result_iac:
                 failed_checks = result_iac['results']['failed_checks']
                 for check in failed_checks:
