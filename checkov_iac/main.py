@@ -5,7 +5,11 @@ import json
 
 def iac_test():
     output_file = 'checkov_report/results_json.json'
-    subprocess.run(["checkov", "-d", ".", "-o", "json", "--output-file", 'checkov_report'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    result = subprocess.run(["checkov", "-d", ".", "-o", "json", "--output-file", 'checkov_report'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    if result.stderr:
+        logger.info(result.stderr)
+    elif result.stdout:
+        logger.info(result.stdout)
     if os.path.exists(output_file):
         with open(output_file, "r") as file:
             content = file.read()
