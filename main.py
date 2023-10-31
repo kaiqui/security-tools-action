@@ -5,6 +5,7 @@ import os
 from dependency_check.main import run_dependency_check
 from trufflehog.main import find_leaks
 from bandit_sast.main import sast_python
+from checkov_iac.main import iac_test
 
 def install_dependencies():
     logger.info("Instalando dependências...")
@@ -21,7 +22,7 @@ def run_tool(tool):
     elif tool == "bandit":
         sast_python()
     elif tool == "checkov":
-        subprocess.run(["checkov", "-d", ".", "-o", "json", "--output-file", output_file], check=True)
+        iac_test()
     elif tool == "trufflehog":
         find_leaks() 
     else:
