@@ -27,7 +27,7 @@ runs:
 
     - name: Install Bandit
       if: inputs.tool == 'web'
-      run: pip install bandit
+      run: pip install bandit safety
       shell: bash
 
     - name: Install Checkov
