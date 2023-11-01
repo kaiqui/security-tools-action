@@ -7,11 +7,6 @@ from trufflehog.main import find_leaks
 from bandit_sast.main import sast_python
 from checkov_iac.main import iac_test
 
-def install_dependencies():
-    logger.info("Instalando dependências...")
-    subprocess.run(["python", "-m", "pip", "install", "--upgrade", "pip"], check=True)
-    subprocess.run(["pip", "install", "bandit", "checkov"], check=True)
-    logger.success("Dependências instaladas com sucesso.")
 
 def run_tool(tool):    
     logger.info(f"Executando ferramenta: {tool}")
@@ -35,12 +30,11 @@ def main():
     if tools_input:
         logger.info(f"Rodando a(s) ferramenta(s): {tools_input}")
         tools = {
-            "all": ["dependency-check", "bandit", "checkov"],
-            "web": ["bandit", "trufflehog"],
-            "iac": ["checkov"],
-            "mobile": [],
-            "android": [],
-            "ios": [],
+            "web": ["bandit", "trufflehog", "dependency-check"],
+            "iac": ["checkov","trufflehog"],
+            "mobile": ["trufflehog"],
+            "android": ["trufflehog"],
+            "ios": ["trufflehog"],
         }.get(tools_input, tools_input.split(","))
 
         for tool in tools:
