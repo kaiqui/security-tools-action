@@ -2,7 +2,7 @@ import subprocess
 from loguru import logger
 import sys
 import os
-from dependency_check.main import run_dependency_check
+from safety_dependency.main import dependency_analise
 from trufflehog.main import find_leaks
 from bandit_sast.main import sast_python
 from checkov_iac.main import iac_test
@@ -10,8 +10,8 @@ from checkov_iac.main import iac_test
 
 def run_tool(tool):    
     logger.info(f"Executando ferramenta: {tool}")
-    if tool == "dependency-check":
-        run_dependency_check()
+    if tool == "safety":
+        dependency_analise()
     elif tool == "bandit":
         sast_python()
     elif tool == "checkov":
@@ -30,7 +30,7 @@ def main():
     if tools_input:
         logger.info(f"Rodando a(s) ferramenta(s): {tools_input}")
         tools = {
-            "web": ["bandit", "trufflehog", "dependency-check"],
+            "web": ["bandit", "trufflehog", "safety"],
             "iac": ["checkov","trufflehog"],
             "mobile": ["trufflehog"],
             "android": ["trufflehog"],

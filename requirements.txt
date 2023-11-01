@@ -1,0 +1,5 @@
+safety
+loguru
+checkov
+bandit
+requests
