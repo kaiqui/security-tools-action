@@ -36,8 +36,8 @@ def main():
             "web": ["bandit", "trufflehog", "safety", "semgrep"],
             "iac": ["checkov","trufflehog"],
             "mobile": ["trufflehog", "semgrep"],
-            "android": ["trufflehog"],
-            "ios": ["trufflehog"],
+            "android": ["trufflehog", "mobsf"],
+            "ios": ["trufflehog", "mobsf"],
         }.get(tools_input, tools_input.split(","))
 
         for tool in tools:

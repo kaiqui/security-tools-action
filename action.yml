@@ -10,6 +10,9 @@ inputs:
   g_username:
     description: 'GitHub Username'
     required: true
+  semgrep_token:
+    description: 'SemGrep App Token'
+    required: true
 runs:
   using: 'composite'
   steps:
