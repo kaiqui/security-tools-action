@@ -6,6 +6,7 @@ from safety_dependency.main import dependency_analise
 from trufflehog.main import find_leaks
 from bandit_sast.main import sast_python
 from checkov_iac.main import iac_test
+from semgrep.main import sast_scan
 
 
 def run_tool(tool):    
@@ -17,7 +18,9 @@ def run_tool(tool):
     elif tool == "checkov":
         iac_test()
     elif tool == "trufflehog":
-        find_leaks() 
+        find_leaks()
+    elif tool == "semgrep":
+        sast_scan()
     else:
         logger.error(f"Ferramenta {tool} não reconhecida")
         sys.exit(1)
@@ -32,7 +35,7 @@ def main():
         tools = {
             "web": ["bandit", "trufflehog", "safety"],
             "iac": ["checkov","trufflehog"],
-            "mobile": ["trufflehog"],
+            "mobile": ["trufflehog", "semgrep"],
             "android": ["trufflehog"],
             "ios": ["trufflehog"],
         }.get(tools_input, tools_input.split(","))
