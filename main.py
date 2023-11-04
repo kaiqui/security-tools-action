@@ -33,7 +33,7 @@ def main():
     if tools_input:
         logger.info(f"Rodando a(s) ferramenta(s): {tools_input}")
         tools = {
-            "web": ["bandit", "trufflehog", "safety"],
+            "web": ["bandit", "trufflehog", "safety", "semgrep"],
             "iac": ["checkov","trufflehog"],
             "mobile": ["trufflehog", "semgrep"],
             "android": ["trufflehog"],
