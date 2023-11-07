@@ -38,10 +38,21 @@ runs:
       run: pip install checkov
       shell: bash
 
-    - name: Run Security Tool
+    - name: Run Security Tools
       run: python ${{ github.action_path }}/main.py
       shell: bash
       env:
         TOOL: ${{ inputs.tool }}
         G_TOKEN: ${{ inputs.g_token }}
         G_USERNAME: ${{ inputs.g_username }}
+    
+    - name: Run Security Tools Depcheck
+      uses: dependency-check/Dependency-Check_Action@main
+      with:
+        project: 'test'
+        path: '.'
+        format: 'HTML'
+        out: 'reports'
+        args: >
+          --failOnCVSS 7
+          --enableRetired
