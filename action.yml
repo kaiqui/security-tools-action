@@ -1,7 +1,7 @@
 name: 'Security Tools Action'
 description: 'Run various security tools'
 inputs:
-  tool:
+  context:
     description: 'Security tool to run'
     required: true
   g_token:
@@ -28,6 +28,10 @@ runs:
     - name: Checkout repository
       uses: actions/checkout@v3
     
+    - name: Create reports directory
+      run: mkdir -p reports
+      shell: bash
+    
     - name: Run TruffleHog
       if: ${{ inputs.context == 'web' || inputs.context == 'mobile' }}
       run: |
@@ -47,13 +51,13 @@ runs:
         WORKSPACE: ${{ github.workspace }}
     
     - name: Run Checkov
-      if: ${{ inputs.tool == 'iac' }}
+      if: ${{ inputs.context == 'iac' }}
       run: |
         docker run --tty --volume ${{ github.workspace }}:/code bridgecrew/checkov:latest -d /code
       shell: bash
     
     - name: Run MobSF
-      if: ${{ inputs.tool == 'mobile' }}
+      if: ${{ inputs.context == 'mobile' }}
       env:
         INPUT_FILE_NAME: ${{ inputs.file_name }}
         OUTPUT_FILE_NAME: ${{ inputs.output_file_name }}
