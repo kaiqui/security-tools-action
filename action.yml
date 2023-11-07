@@ -13,46 +13,62 @@ inputs:
   semgrep_token:
     description: 'SemGrep App Token'
     required: true
+  file_name:
+    description: 'File name for the MobSF to scan'
+    required: false
+  output_file_name:
+    description: 'Output file name for the MobSF report'
+    required: false
+  scan_type:
+    description: 'Type of scan for MobSF to perform (apk, ipa, appx)'
+    required: false
 runs:
   using: 'composite'
   steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: 3.9
     
-    - name: Install Logger
-      run: pip install loguru
-      shell: bash
-
-    - name: Install Bandit
-      if: inputs.tool == 'web'
-      run: pip install bandit safety
-      shell: bash
-
-    - name: Install Checkov
-      if: inputs.tool == 'iac'
-      run: pip install checkov
-      shell: bash
-
-    - name: Run Security Tools
-      run: python ${{ github.action_path }}/main.py
+    - name: Run TruffleHog
+      if: ${{ inputs.context == 'web' || inputs.context == 'mobile' }}
+      run: |
+        docker run --rm -i -v "${{ github.workspace }}:/pwd" trufflesecurity/trufflehog:latest git https://${{ inputs.g_username }}:${{ inputs.g_token }}@github.com/${{ github.repository_owner }}/${{ github.repository }}.git --json > trufflehog-results.json
+        cat trufflehog-results.json
       shell: bash
       env:
-        TOOL: ${{ inputs.tool }}
         G_TOKEN: ${{ inputs.g_token }}
         G_USERNAME: ${{ inputs.g_username }}
     
-    - name: Run Security Tools Depcheck
-      uses: dependency-check/Dependency-Check_Action@main
-      with:
-        project: 'test'
-        path: '.'
-        format: 'HTML'
-        out: 'reports'
-        args: >
-          --failOnCVSS 7
-          --enableRetired
+    - name: Run Dependency-Check
+      if: ${{ inputs.context == 'web' || inputs.context == 'mobile' }}
+      run: |
+        docker run --rm -v "${{ github.workspace }}:/src" owasp/dependency-check --project "Dependency Check" --scan "/src" --out "/src/reports" --format "HTML"
+      shell: bash
+      env:
+        WORKSPACE: ${{ github.workspace }}
+    
+    - name: Run Checkov
+      if: ${{ inputs.tool == 'iac' }}
+      run: |
+        docker run --tty --volume ${{ github.workspace }}:/code bridgecrew/checkov:latest -d /code
+      shell: bash
+    
+    - name: Run MobSF
+      if: ${{ inputs.tool == 'mobile' }}
+      env:
+        INPUT_FILE_NAME: ${{ inputs.file_name }}
+        OUTPUT_FILE_NAME: ${{ inputs.output_file_name }}
+        SCAN_TYPE: ${{ inputs.scan_type }}
+        GITHUB_WORKSPACE: ${{ github.workspace }}
+      run: |
+        docker build -t mobsfscan -f .github/workflows/mobsf/Dockerfile .github/workflows/mobsf/
+        docker run --rm -v "${{ github.workspace }}:/github/workspace" --network host mobsfscan
+      shell: bash
+
+    - name: Run Semgrep
+      if: ${{ inputs.context == 'web' || inputs.context == 'mobile' }}
+      env:
+        SEMGREP_APP_TOKEN: ${{ inputs.semgrep_token }}
+        GITHUB_WORKSPACE: ${{ github.workspace }}
+      run: |
+        docker run -e SEMGREP_APP_TOKEN=${{ inputs.semgrep_token }} --rm -v "${GITHUB_WORKSPACE}:/src" returntocorp/semgrep semgrep ci
+      shell: bash
