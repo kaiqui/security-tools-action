@@ -44,3 +44,24 @@ jobs:
         with:
           name: security-reports
           path: reports/
+```
+
+### Tools Description
+
+- `OWASP Dependency-Check`: Identifies project dependencies and checks if there are any known, publicly disclosed, vulnerabilities.
+- `TruffleHog`: Searches through git repositories for secrets, digging deep into commit history and branches.
+- `Semgrep`: Static code analysis tool for finding bugs and enforcing code standards.
+- `MobSF`: Automated security testing for Android, iOS, and Windows applications.
+- `Checkov`: Static code analysis tool for infrastructure as code (IaC).
+
+### Contributing
+
+This action is open source and contributions are welcome. You can customize and extend it to fit your own security analysis needs.
+
+### License
+
+This project is distributed under the MIT License, allowing everyone to use, modify, and distribute it as they see fit.
+
+### Acknowledgments
+
+Thanks to all the contributors of the tools used in this action for providing the community with such valuable resources.
